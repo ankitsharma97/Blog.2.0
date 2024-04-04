@@ -4,3 +4,4 @@ gunicorn
 packaging
 sqlparse
 typing_extensions
+whitenoise
