@@ -1,4 +1,6 @@
 asgiref
 Django
+gunicorn
+packaging
 sqlparse
 typing_extensions
