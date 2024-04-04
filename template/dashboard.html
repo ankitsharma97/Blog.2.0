@@ -1,0 +1,31 @@
+{%extends 'base.html'%} {%load static%}{%block content%}
+<div class="col-sm-12 ">
+    <h3 class="text-white my-5">Dashboard {{request.username}}</h3>
+    <a class="btn btn-success btn-lg" href="{%url 'add_post'%}">Add Post</a>
+    <h4 class="text-center alert alert-info mt-3">Show Post Information</h4>
+    {%if posts%}
+    <table class="table table-hover bg-white">
+        <thead>
+            <tr class="text-center">
+                <th scope="col" style="width: 28%;">Title</th>
+                <th scope="col" style="width: 55%;">Description</th>
+                <th scope="col" style="width: 15%;">Action</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {%for post in posts%}
+            <tr class="text-center">
+                <td scope="col" style="width: 28%;">{{post.title}}</td>
+                <td scope="col" style="width: 55%;">{{post.desc}}</td>
+                <td scope="col" style="width: 15%;">
+                    <a class="btn btn-warning btn-sm" href="{%url 'update_post' post.id%}">Edit</a> {%if perms.blog.delete_post%}
+                    <form action="{%url 'delete_post' post.id%}" method="post" class="d-inline">{% csrf_token %} <input type="submit" value="Delete" class="btn btn-danger btn-sm my-1"></form>{%endif%}
+                </td>
+            </tr>{%endfor%}
+        </tbody>
+    </table>{%else%}
+    <h4 class="text-center alert alert-warning">
+        No Record
+    </h4> {%endif%}
+</div>{%endblock content%}
