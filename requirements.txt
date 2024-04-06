@@ -2,6 +2,7 @@ asgiref
 Django
 gunicorn
 packaging
+pillow
 sqlparse
 typing_extensions
 whitenoise
