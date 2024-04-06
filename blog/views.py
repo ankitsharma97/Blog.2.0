@@ -8,7 +8,6 @@ from django.contrib.auth.models import Group
  
 def index(request):
     posts = Post.objects.all()
-    print(posts)
     return render(request,'home.html',{'posts':posts})
 
 def about(request):

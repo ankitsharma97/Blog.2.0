@@ -4,41 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog<img src="./blog.png" alt="Blog Logo">
-    </title>
+    <title>Blog<img src="{% static 'images/blog.png' %}" alt="Blog Logo"></title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <style>
+        body {
+            background-color: rgb(59, 61, 61);
+            color: antiquewhite;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .jumbo-color {
+            background-color: rgb(85, 85, 85);
+            border-radius: 25px;
+            color: whitesmoke;
+        }
+        
+        .form-control {
+            background-color: rgb(85, 85, 85);
+        }
+        
+        .wrapper {
+            flex: 1;
+        }
+        
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-fluid bg-dark">
-        {%include 'navbar.html'%}
+        {% include 'navbar.html' %}
     </div>
-    <div class="container">
+    <div class="container wrapper">
         <div class="row">
             <div class="col-sm-12">
-                {%block msg%} {%endblock msg%}
+                {% block msg %} {% endblock msg %}
             </div>
         </div>
 
         <div class="row">
-            {%block side%} {%endblock side%} {%block content%} {%endblock content%}
+            {% block side %} {% endblock side %} {% block content %} {% endblock content %}
         </div>
-
-
-
     </div>
-    <footer class="bg-dark text-center my-1">
-
+    <footer class="bg-dark text-center my-1 footer">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
             © 2024 Copyright:
             <a class="text-white" href="https://www.linkedin.com/in/ankit-sharma-op/">Ankit Sharma</a>
         </div>
     </footer>
-    <script src="{%static 'js/jquery.js'%}"></script>
-    <script src="{%static 'js/popper.js'%}"></script>
-    <script src="{%static 'js/bootstrap.js'%}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
 </body>
 
 </html>
