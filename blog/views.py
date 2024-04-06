@@ -24,12 +24,12 @@ def login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
-            print(user)
             if user is not None:
                 auth_login(request, user)
                 return redirect('dashboard')
             else:
-                return render(request, 'login.html', {'form': form, 'error': 'Invalid email or password'})
+                return render(request, 'login.html', {'form': form, 'error': 'Invalid Username or password'})
+                
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
@@ -46,6 +46,8 @@ def signup(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
+            if User.objects.filter(username=username).exists():
+                return render(request, 'signup.html', {'form': form, 'error': 'Username already taken'})
             if password != confirm_password:
                 return render(request, 'signup.html', {'form': form, 'error': 'Passwords do not match'})
             user = User.objects.create_user(username=username, email=email, password=password, first_name=name)
@@ -67,22 +69,28 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
+from django.shortcuts import render, redirect
+from .forms import PostForm
+from .models import Post
+
 def add_post(request):
-    frm = PostForm() 
     if request.user.is_authenticated:
+        form = PostForm(request.POST or None, request.FILES or None)
         if request.method == 'POST':
-            form = PostForm(request.POST)
             if form.is_valid():
                 title = form.cleaned_data['title']
                 desc = form.cleaned_data['desc']
+                img = form.cleaned_data['img']
+                video = form.cleaned_data['video']
                 username = request.user.username
-                post = Post(title=title, desc=desc,username=username)
+                post = Post(title=title, desc=desc, username=username, img=img, video=video)
                 post.save()
-                frm = PostForm()
-                
-        return render(request, 'addpost.html', {'form': frm})
+                form = PostForm()
+                return redirect('dashboard')
+        return render(request, 'addpost.html', {'form': form})
     else:
         return redirect('login')
+
 
     
 def update_post(request,id):

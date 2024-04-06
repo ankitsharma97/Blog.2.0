@@ -13,10 +13,16 @@ class SignUpForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
 
+
 class PostForm(forms.ModelForm):
     class Meta:
       model = Post
-      fields = ['title','desc',]
-      labels = {'title':'Title','desc':'Description',}
-      widgets = {'title':forms.TextInput(attrs={'class':'form-control'}),'desc':forms.Textarea(attrs={'class':'form-control',}),} 
+      fields = ['title','img','video','desc',]
+      labels = {'title':'Title','img':'Image','video':'Video','desc':'Description',}
+      widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'img': forms.FileInput(attrs={'class': 'form-control'}),
+            'video': forms.FileInput(attrs={'class': 'form-control'}),
+            'desc': forms.Textarea(attrs={'class': 'form-control'}),
+        } 
       

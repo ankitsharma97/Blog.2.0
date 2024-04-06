@@ -4,28 +4,50 @@
     <a class="btn btn-success btn-lg" href="{%url 'add_post'%}">Add Post</a>
     <h4 class="text-center alert alert-info mt-3">Show Post Information</h4>
     {%if posts%}
-    <table class="table table-hover bg-white">
+    <table class=" bg-dark text-white m-1">
         <thead>
             <tr class="text-center">
-                <th scope="col" style="width: 28%;">Title</th>
-                <th scope="col" style="width: 55%;">Description</th>
-                <th scope="col" style="width: 15%;">Action</th>
+                <th scope="col" style="width: 20%;">Title</th>
+                <th scope="col" style="width: 20%;">Image</th>
+                <th scope="col" style="width: 20%;">Video</th>
+                <th scope="col" style="width: 30%;">Description</th>
+                <th scope="col" style="width: 10%;">Action</th>
             </tr>
-
         </thead>
         <tbody>
-            {%for post in posts%}
+            {% for post in posts %}
             <tr class="text-center">
-                <td scope="col" style="width: 28%;">{{post.title}}</td>
-                <td scope="col" style="width: 55%;">{{post.desc}}</td>
-                <td scope="col" style="width: 15%;">
-                    <a class="btn btn-warning btn-sm" href="{%url 'update_post' post.id%}">Edit</a> {%if perms.blog.delete_post%}
-                    <form action="{%url 'delete_post' post.id%}" method="post" class="d-inline">{% csrf_token %} <input type="submit" value="Delete" class="btn btn-danger btn-sm my-1"></form>{%endif%}
+                <td>{{ post.title }}</td>
+                <td>
+                    {% if post.img %}
+                    <img src="{{ post.img.url }}" class="img-fluid p-1">
+                    {% endif %}
                 </td>
-            </tr>{%endfor%}
+                <td>
+                    {% if post.video %}
+                    <video controls class="w-100 p-1 embed-responsive-item">
+                        <source src="{{ post.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                </td>
+                <td>{{ post.desc }}</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="{% url 'update_post' post.id %}">Edit</a>
+                    {% if perms.blog.delete_post %}
+                    <form action="{% url 'delete_post' post.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger btn-sm my-1">
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
-    </table>{%else%}
+    </table>
+    {%else%}
     <h4 class="text-center alert alert-warning">
         No Record
-    </h4> {%endif%}
+    </h4> <div></div>
+    <br><br><br><br><br><br><br><br> {%endif%}
 </div>{%endblock content%}
